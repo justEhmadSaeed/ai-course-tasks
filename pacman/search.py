@@ -127,7 +127,25 @@ def depthFirstSearch(problem):
     print "Start's successors:", problem.getSuccessors(problem.getStartState())
     """
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    currentState = problem.getStartState()
+    print currentState
+    actions = []
+    maxIteration = 0
+    while (maxIteration <= 20):
+        children = problem.getSuccessors(currentState)
+        print children
+        actions.append(getActionFromTriplet(children[0]))
+        firstChild = children[0]
+        firstChildState = firstChild[0]
+        currentState = firstChildState
+        maxIteration = maxIteration + 1
+        
+    print actions
+    return actions
+    # util.raiseNotDefined()
+
+def getActionFromTriplet(triple):
+    return triple[1]
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
