@@ -140,11 +140,17 @@ def DFS(problem):
     print currentState
     actions = []
     maxIteration = 0
+    previousState = currentState
     while (maxIteration <= 20):
         children = problem.getSuccessors(currentState)
         print children
-        actions.append(getActionFromTriplet(children[0]))
-        firstChild = children[0]
+        if previousState == children[0][0]:
+            firstChild = children[1]
+        else:
+            firstChild = children[0]
+        
+        previousState = currentState
+        actions.append(getActionFromTriplet(firstChild))
         firstChildState = firstChild[0]
         currentState = firstChildState
         maxIteration = maxIteration + 1
