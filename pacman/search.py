@@ -112,6 +112,46 @@ def bigMazeSearch(problem):
     s, s, s, s, s, s, s, s, s, s, e, e, s, s, s, s, w, w, s, s, s, s, e, e,
     s, s, w, w, s, s, s, s, w, w, s, s
      ]
+def DFS(problem):
+    '''
+    Challenge 01: Increase the maxIteration to 20,30 and 40 and see the behavior of pacman. If pacman do not die out, at
+    some stage, it will be stuck in loop and cannot move forward. Write down the reason why he is getting into the loop and
+    identify the part of the code which need to be modified.
+
+    Answer:
+    Whenever problem.getSuccessors(currentState) is called, it returns a list of
+    possible states where the pacman can move to. This list is sorted in the following
+    order [North, South, East, West]. And the given code always choose the first child
+    of the successors. Which means the available highest ordered child is chosen.
+
+    At the 13rd iteration, the successors are South & West and due to higher order of South,
+    the program chooses South. At the next iteration, the successors are North & South.
+    And program chooses North due to its order higher than South.
+
+    But at the next iteration, the successors are again South and West and it chooses South.
+    This loop keeps choosing South among South & West, which leads to the successors of 
+    North & South. And the selection of North takes the program again to the successors of
+    South and West, so the pacman gets stuck in a loop.
+
+    The part where the program always chooses first child has to be modified, because due to sorting
+    of successors, the highest order child will always be selected, no matter what.
+    '''
+    currentState = problem.getStartState()
+    print currentState
+    actions = []
+    maxIteration = 0
+    while (maxIteration <= 20):
+        children = problem.getSuccessors(currentState)
+        print children
+        actions.append(getActionFromTriplet(children[0]))
+        firstChild = children[0]
+        firstChildState = firstChild[0]
+        currentState = firstChildState
+        maxIteration = maxIteration + 1
+        
+    print actions
+    return actions
+
 def depthFirstSearch(problem):
     """
     Search the deepest nodes in the search tree first.
