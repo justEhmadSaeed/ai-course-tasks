@@ -174,21 +174,35 @@ def depthFirstSearch(problem):
     """
     "*** YOUR CODE HERE ***"
     currentState = problem.getStartState()
-    print currentState
-    actions = []
-    maxIteration = 0
-    while (maxIteration <= 20):
-        children = problem.getSuccessors(currentState)
-        print children
-        actions.append(getActionFromTriplet(children[0]))
-        firstChild = children[0]
-        firstChildState = firstChild[0]
-        currentState = firstChildState
-        maxIteration = maxIteration + 1
+
+    frontier = util.Stack()
+    frontier.push((currentState,[]))
+
+    explored = set()
+    explored.add(currentState)
+
+    while not frontier.isEmpty():
+        Directions = frontier.pop()
+        state = Directions[0]
+        actions = Directions[1]
         
-    print actions
-    return actions
-    # util.raiseNotDefined()
+        currentState = problem.getSuccessors(state)
+
+        for child in currentState:
+            state = child[0]
+            direction = child[1]
+
+            if state not in explored:
+                if problem.isGoalState(state):
+                    actions += [direction]
+                    print actions 
+                    return actions
+                else:
+                    frontier.push((state, actions + [direction]))
+                    explored.add(state)
+
+    return []
+    util.raiseNotDefined()
 
 def getActionFromTriplet(triple):
     return triple[1]
