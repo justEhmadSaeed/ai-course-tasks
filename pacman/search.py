@@ -4,7 +4,7 @@
 # educational purposes provided that (1) you do not distribute or publish
 # solutions, (2) you retain this notice, and (3) you provide clear
 # attribution to UC Berkeley, including a link to http://ai.berkeley.edu.
-# 
+#
 # Attribution Information: The Pacman AI projects were developed at UC Berkeley.
 # The core projects and autograders were primarily created by John DeNero
 # (denero@cs.berkeley.edu) and Dan Klein (klein@cs.berkeley.edu).
@@ -18,6 +18,7 @@ Pacman agents (in searchAgents.py).
 """
 
 import util
+
 
 class SearchProblem:
     """
@@ -72,6 +73,7 @@ def tinyMazeSearch(problem):
     w = Directions.WEST
     return [s, s, w, s, w, w, s, w]
 
+
 def mediumClassicSearch(problem):
     from game import Directions
     s = Directions.SOUTH
@@ -80,6 +82,7 @@ def mediumClassicSearch(problem):
     n = Directions.NORTH
     return [w, w, w, n, n]
 
+
 def mediumMazeSearch(problem):
     from game import Directions
     s = Directions.SOUTH
@@ -87,13 +90,14 @@ def mediumMazeSearch(problem):
     e = Directions.EAST
     n = Directions.NORTH
     return [w, w, w, w, w, w, w, w, w,
-    s, s, e, e, s, s, s,
-    w, w, w, n, w, w, w, w,
-    s, s, s, e, e, e, e, e, e, e,
-    s, s, s, s, s, s, s,
-    w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w,
-    s, w, w, w, w, w, w, w, w, w
-    ]
+            s, s, e, e, s, s, s,
+            w, w, w, n, w, w, w, w,
+            s, s, s, e, e, e, e, e, e, e,
+            s, s, s, s, s, s, s,
+            w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w, w,
+            s, w, w, w, w, w, w, w, w, w
+            ]
+
 
 def bigMazeSearch(problem):
     from game import Directions
@@ -103,15 +107,17 @@ def bigMazeSearch(problem):
     n = Directions.NORTH
 
     return [n, n, w, w, w, w, n, n, w, w, s, s,
-    w, w, w, w, w, w, w, w, w, w, w, w, w, w, n, n, e, e, n, n, w, w, n, n, n, n, n, n,
-    e, e, e, e, e, e, s, s, e, e, n, n, e, e, e, e, n, n, e, e, s, s, e, e,
-    n, n, n, n, n, n, e, e, e, e, n, n, n, n, n, n, n, n, n, n, w, w, s, s, w, w, w, w,
-    s, s, s, s, s, s, w, w, s, s, s, s, w, w, n, n, w, w, w, w, w, w, w, w, w, w, w, w,
-    n, n, e, e, n, n, n, n, n, n, e, e, e, e, e, e, n, n, n, n, n, n, n, n, w, w, w, w, w, w,
-    s, s, w, w, w, w, s, s, s, s, e, e, s, s, w, w, w, w, w, w, w, w, w, w,
-    s, s, s, s, s, s, s, s, s, s, e, e, s, s, s, s, w, w, s, s, s, s, e, e,
-    s, s, w, w, s, s, s, s, w, w, s, s
-     ]
+            w, w, w, w, w, w, w, w, w, w, w, w, w, w, n, n, e, e, n, n, w, w, n, n, n, n, n, n,
+            e, e, e, e, e, e, s, s, e, e, n, n, e, e, e, e, n, n, e, e, s, s, e, e,
+            n, n, n, n, n, n, e, e, e, e, n, n, n, n, n, n, n, n, n, n, w, w, s, s, w, w, w, w,
+            s, s, s, s, s, s, w, w, s, s, s, s, w, w, n, n, w, w, w, w, w, w, w, w, w, w, w, w,
+            n, n, e, e, n, n, n, n, n, n, e, e, e, e, e, e, n, n, n, n, n, n, n, n, w, w, w, w, w, w,
+            s, s, w, w, w, w, s, s, s, s, e, e, s, s, w, w, w, w, w, w, w, w, w, w,
+            s, s, s, s, s, s, s, s, s, s, e, e, s, s, s, s, w, w, s, s, s, s, e, e,
+            s, s, w, w, s, s, s, s, w, w, s, s
+            ]
+
+
 def DFS(problem):
     '''
     Challenge 01: Increase the maxIteration to 20,30 and 40 and see the behavior of pacman. If pacman do not die out, at
@@ -148,15 +154,16 @@ def DFS(problem):
             firstChild = children[1]
         else:
             firstChild = children[0]
-        
+
         previousState = currentState
         actions.append(getActionFromTriplet(firstChild))
         firstChildState = firstChild[0]
         currentState = firstChildState
         maxIteration = maxIteration + 1
-        
+
     print actions
     return actions
+
 
 def depthFirstSearch(problem):
     """
@@ -176,7 +183,7 @@ def depthFirstSearch(problem):
     currentState = problem.getStartState()
 
     frontier = util.Stack()
-    frontier.push((currentState,[]))
+    frontier.push((currentState, []))
 
     explored = set()
     explored.add(currentState)
@@ -185,7 +192,7 @@ def depthFirstSearch(problem):
         Directions = frontier.pop()
         state = Directions[0]
         actions = Directions[1]
-        
+
         currentState = problem.getSuccessors(state)
 
         for child in currentState:
@@ -195,7 +202,7 @@ def depthFirstSearch(problem):
             if state not in explored:
                 if problem.isGoalState(state):
                     actions += [direction]
-                    print actions 
+                    print actions
                     return actions
                 else:
                     frontier.push((state, actions + [direction]))
@@ -204,18 +211,51 @@ def depthFirstSearch(problem):
     return []
     util.raiseNotDefined()
 
+
 def getActionFromTriplet(triple):
     return triple[1]
+
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
+    currentState = problem.getStartState()
+
+    frontier = util.Queue()
+    frontier.push((currentState, []))
+
+    explored = set()
+    explored.add(currentState)
+
+    while not frontier.isEmpty():
+        Directions = frontier.pop()
+        state = Directions[0]
+        actions = Directions[1]
+
+        currentState = problem.getSuccessors(state)
+
+        for child in currentState:
+            state = child[0]
+            direction = child[1]
+
+            if state not in explored:
+                if problem.isGoalState(state):
+                    actions += [direction]
+                    print actions
+                    return actions
+                else:
+                    frontier.push((state, actions + [direction]))
+                    explored.add(state)
+
+    return []
     util.raiseNotDefined()
+
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
     util.raiseNotDefined()
+
 
 def nullHeuristic(state, problem=None):
     """
@@ -223,6 +263,7 @@ def nullHeuristic(state, problem=None):
     goal in the provided SearchProblem.  This heuristic is trivial.
     """
     return 0
+
 
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
