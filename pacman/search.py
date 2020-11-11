@@ -310,7 +310,8 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     "*** YOUR CODE HERE ***"
     currentState = problem.getStartState()
     frontier = util.PriorityQueue()
-    frontier.push((currentState, []), 0)
+
+    frontier.push((currentState, []), heuristic(currentState, problem))
 
     explored = set()
     nodes_cost = dict()
@@ -339,7 +340,9 @@ def aStarSearch(problem, heuristic=nullHeuristic):
             if c_state not in nodes_cost or nodes_cost[c_state] > nodes_cost[state] + c_cost:
 
                 item = (c_state, actions + [c_direction])
-                totalCostPerNode = nodes_cost[state] + c_cost
+                totalCostPerNode = nodes_cost[state] + \
+                    c_cost + heuristic(c_state, problem)
+
                 if c_state in nodes_cost:
                     frontier.update(item, totalCostPerNode)
                 else:
