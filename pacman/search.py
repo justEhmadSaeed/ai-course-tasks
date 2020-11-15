@@ -305,13 +305,27 @@ def nullHeuristic(state, problem=None):
     return 0
 
 
+# def manhattanHeuristic(position, problem, info={}):
+#     "The Manhattan distance heuristic for a PositionSearchProblem"
+#     xy1 = position
+#     xy2 = problem.goal
+#     return abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1])
+
+
+# def euclideanHeuristic(position, problem, info={}):
+#     "The Euclidean distance heuristic for a PositionSearchProblem"
+#     xy1 = position
+#     xy2 = problem.goal
+#     return ((xy1[0] - xy2[0]) ** 2 + (xy1[1] - xy2[1]) ** 2) ** 0.5
+
+
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     "*** YOUR CODE HERE ***"
     currentState = problem.getStartState()
     frontier = util.PriorityQueue()
 
-    frontier.push((currentState, []), heuristic(currentState, problem))
+    frontier.push((currentState, []), 0 + heuristic(currentState, problem))
 
     explored = set()
     nodes_cost = dict()
@@ -322,34 +336,30 @@ def aStarSearch(problem, heuristic=nullHeuristic):
         state = Directions[0]
         actions = Directions[1]
 
-        if problem.isGoalState(state):
-            print len(actions)
-            return actions
-
         if state not in explored:
             explored.add(state)
         else:
             continue
 
+        if problem.isGoalState(state):
+            print len(actions)
+            return actions
+
         children = problem.getSuccessors(state)
+
         for child in children:
-            c_state = child[0]
-            c_direction = child[1]
-            c_cost = child[2]
+            c_state, c_direction, c_cost = child[0], child[1], child[2]
 
             if c_state not in nodes_cost or nodes_cost[c_state] > nodes_cost[state] + c_cost:
-
+            
                 item = (c_state, actions + [c_direction])
                 totalCostPerNode = nodes_cost[state] + \
                     c_cost + heuristic(c_state, problem)
-
                 if c_state in nodes_cost:
                     frontier.update(item, totalCostPerNode)
                 else:
                     frontier.push(item, totalCostPerNode)
-                # Update Cost of c_state node
-                nodes_cost[c_state] = totalCostPerNode
-
+                nodes_cost[c_state] = nodes_cost[state] + c_cost
     util.raiseNotDefined()
 
 
